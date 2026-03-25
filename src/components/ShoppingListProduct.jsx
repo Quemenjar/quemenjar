@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 function ShoppingListProduct({
@@ -10,13 +11,48 @@ function ShoppingListProduct({
 
     const navigate = useNavigate();
 
+  
+    const [localName, setLocalName] = useState(product.name || "");
+    const [localNeeded, setLocalNeeded] = useState(product.needed || "");
+    const [localNote, setLocalNote] = useState(product.note || "");
+
+   
+    const nameTimeout = useRef(null);
+    const neededTimeout = useRef(null);
+    const noteTimeout = useRef(null);
+
+
+    useEffect(() => {
+        setLocalName(product.name || "");
+        setLocalNeeded(product.needed || "");
+        setLocalNote(product.note || "");
+    }, [product.name, product.needed, product.note]);
+
+  
+    useEffect(() => {
+        return () => {
+            clearTimeout(nameTimeout.current);
+            clearTimeout(neededTimeout.current);
+            clearTimeout(noteTimeout.current);
+        };
+    }, []);
+
+    
+    const handleDebouncedChange = (field, value, setLocal, timeoutRef) => {
+        setLocal(value);
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = setTimeout(() => {
+            onUpdateProduct(product.id, field, value);
+        }, 1000);
+    };
+
     return (
         <div>
             <input
                 type="text"
-                value={product.name || ""}
+                value={localName}
                 onChange={(e) => {
-                    onUpdateProduct(product.id, "name", e.target.value);
+                    handleDebouncedChange("name", e.target.value, setLocalName, nameTimeout);
                 }}
                 placeholder="Nombre del producto"
             />
@@ -24,9 +60,9 @@ function ShoppingListProduct({
 
             <input
                 type="number"
-                value={product.needed || ""}
+                value={localNeeded}
                 onChange={(e) => {
-                    onUpdateProduct(product.id, "needed", e.target.value);
+                    handleDebouncedChange("needed", e.target.value, setLocalNeeded, neededTimeout);
                 }}
                 min="0"
             />
@@ -54,9 +90,9 @@ function ShoppingListProduct({
 
             <input
                 type="text"
-                value={product.note || ""}
+                value={localNote}
                 onChange={(e) => {
-                    onUpdateProduct(product.id, "note", e.target.value);
+                    handleDebouncedChange("note", e.target.value, setLocalNote, noteTimeout);
                 }}
                 placeholder="Nota"
             />
