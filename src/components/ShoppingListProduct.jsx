@@ -1,10 +1,4 @@
 function ShoppingListProduct({ product, usedStores, onUpdateProduct, products }) {
-    const storesFromProducts = products.map((item) => {
-        return item.store;
-    });
-
-    const allStores = [...new Set([...usedStores, ...storesFromProducts])];
-
     return (
         <div>
             <input
@@ -30,22 +24,17 @@ function ShoppingListProduct({ product, usedStores, onUpdateProduct, products })
                 }}
             >
                 <option value="">Selecciona tienda</option>
-                {allStores.map((store, i) => {
+
+                {usedStores.map((store, i) => {
                     return (
                         <option key={i} value={store}>
                             {store}
                         </option>
                     );
                 })}
-            </select>
 
-            <input
-                type="text"
-                placeholder="Nueva tienda"
-                onChange={(e) => {
-                    onUpdateProduct(product.id, "store", e.target.value);
-                }}
-            />
+                <option value="Otros">Otros</option>
+            </select>
 
             <input
                 type="text"
