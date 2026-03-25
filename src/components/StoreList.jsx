@@ -1,62 +1,26 @@
-import { useState } from "react";
-
-function StoreList({ usedStores, stores, onAddStore }) {
-    const [storeValue, setStoreValue] = useState("");
-    const [showSuggestions, setShowSuggestions] = useState(false);
-
-    const filteredStores = usedStores.filter((store) =>
-        store.toLowerCase().includes(storeValue.toLowerCase())
-    );
-
-    const handleAddStore = () => {
-        if (storeValue === "") return;
-
-        if (stores.includes(storeValue)) return;
-
-        onAddStore(storeValue);
-        setStoreValue("");
-        setShowSuggestions(false);
-    };
-
+function StoreList({ usedStores, selectedStore, onSelectStore }) {
     return (
-        <form
-            onSubmit={(e) => {
-                e.preventDefault();
-                handleAddStore();
-            }}
-        >
-            <input
-                type="text"
-                value={storeValue}
-                placeholder="Tienda o supermercado"
+        <div>
+            <select
+                value={selectedStore}
                 onChange={(e) => {
-                    setStoreValue(e.target.value);
-                    setShowSuggestions(true);
+                    onSelectStore(e.target.value);
                 }}
-                onFocus={() => setShowSuggestions(true)}
-            />
+            >
+                <option value="">Todas</option>
 
-            {showSuggestions && storeValue !== "" && filteredStores.length > 0 && (
-                <ul>
-                    {filteredStores.map((store, i) => {
-                        return (
-                            <li
-                                key={i}
-                                onClick={() => {
-                                    setStoreValue(store);
-                                    setShowSuggestions(false);
-                                }}
-                            >
-                                {store}
-                            </li>
-                        );
-                    })}
-                </ul>
-            )}
+                {usedStores.map((store, i) => {
+                    return (
+                        <option key={i} value={store}>
+                            {store}
+                        </option>
+                    );
+                })}
 
-            <button type="submit">filtrar por tienda</button>
-        </form>
-    )
+                <option value="Otros">Otros</option>
+            </select>
+        </div>
+    );
 }
 
 export default StoreList;
