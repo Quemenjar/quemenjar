@@ -47,10 +47,6 @@ function InventoryProduct ({productDetails, onChange, onChangeQuantity, onDelete
                 { productDetails.usual ? 'Usual' : 'Unusual'}
             </button>
 
-            <button onClick={(e) => {onChange(productDetails.id, !productDetails.restock, 'restock')}}>
-                { productDetails.restock ? 'Comprar' : 'No comprar'}
-            </button>
-
             <button>
                 <Link to={`/product/${productDetails.id}`} >Editar</Link>
             </button>
