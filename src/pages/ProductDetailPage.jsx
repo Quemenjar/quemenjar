@@ -1,5 +1,5 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
+import toast, { Toaster } from 'react-hot-toast';
 import { useParams } from "react-router-dom";
 import useDebounce from "../hooks/UseDebounce";
 import { getProduct, updateProduct} from "../database/crud";
@@ -12,11 +12,19 @@ function ProductDetailPage () {
     useEffect(() => {
         console.log("Updating product with...", debouncedProductDetails);
         if (debouncedProductDetails !== null) {
-            updateDatabase(debouncedProductDetails);
+            notifyPromise(updateDatabase(debouncedProductDetails));
         }
         
-    }, [debouncedProductDetails])
+    }, [debouncedProductDetails]);
 
+    const notifyPromise = (promise) => toast.promise(
+        promise,
+        {
+            loading: 'Saving...',
+            success: <b>Product saved</b>,
+            error: <b>Could not save.</b>
+        }
+    );
 
     const fetchProduct = async (id) => {
         const result = await getProduct(id);
@@ -55,7 +63,7 @@ function ProductDetailPage () {
 
     return (
         <div>
-            
+            <Toaster />
             <input 
                 type="text" 
                 value={productDetails.name} 
@@ -128,15 +136,6 @@ function ProductDetailPage () {
                     type="text" 
                     value={productDetails.store} 
                     onChange={(e) => {onChange(e.target.value, 'store')}}
-                />
-            </label>
-
-            <label>
-                Usual
-                <input 
-                    type="checkbox" 
-                    value={productDetails.usual} 
-                    onChange={(e) => {onChange(e.target.value, 'usual')}}
                 />
             </label>
 
