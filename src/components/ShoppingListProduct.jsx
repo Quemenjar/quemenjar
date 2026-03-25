@@ -72,7 +72,7 @@ function ShoppingListProduct({
 
 
             <button onClick={() => onRemoveFromList(product.id)}>
-                Eliminar
+                Quitar
             </button>
         </div>
     );
