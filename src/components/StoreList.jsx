@@ -1,4 +1,8 @@
-function StoreList({ usedStores, selectedStore, onSelectStore }) {
+function StoreList({
+    stores,
+    selectedStore,
+    onSelectStore,
+}) {
     return (
         <div>
             <select
@@ -9,13 +13,15 @@ function StoreList({ usedStores, selectedStore, onSelectStore }) {
             >
                 <option value="">Todas</option>
 
-                {usedStores.map((store, i) => {
+
+                {stores.map((store, i) => {
                     return (
                         <option key={i} value={store}>
                             {store}
                         </option>
                     );
                 })}
+
 
                 <option value="Otros">Otros</option>
             </select>
