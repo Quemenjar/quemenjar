@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 
-function InventoryProduct ({productDetails, onChange, onDelete}) {
+function InventoryProduct ({productDetails, onChange, onChangeQuantity, onDelete}) {
     
     return (
         <div>
@@ -15,7 +15,7 @@ function InventoryProduct ({productDetails, onChange, onDelete}) {
                 <input 
                     type="number" 
                     value={productDetails.quantity} 
-                    onChange={(e) => {onChange(productDetails.id, e.target.value, 'quantity')}}
+                    onChange={(e) => {onChangeQuantity(productDetails.id, e.target.value)}}
                 />
             </label>
 
