@@ -1,4 +1,15 @@
-function ShoppingListProduct({ product, usedStores, onUpdateProduct, products }) {
+import { useNavigate } from "react-router-dom";
+
+function ShoppingListProduct({
+    product,
+    stores,
+    onUpdateProduct,
+    onMarkAsPurchased,
+    onRemoveFromList,
+}) {
+
+    const navigate = useNavigate();
+
     return (
         <div>
             <input
@@ -7,14 +18,17 @@ function ShoppingListProduct({ product, usedStores, onUpdateProduct, products })
                 onChange={(e) => {
                     onUpdateProduct(product.id, "name", e.target.value);
                 }}
+                placeholder="Nombre del producto"
             />
+
 
             <input
                 type="number"
-                value={product.needed || 0}
+                value={product.needed || ""}
                 onChange={(e) => {
-                    onUpdateProduct(product.id, "needed", Number(e.target.value));
+                    onUpdateProduct(product.id, "needed", e.target.value);
                 }}
+                min="0"
             />
 
             <select
@@ -25,7 +39,8 @@ function ShoppingListProduct({ product, usedStores, onUpdateProduct, products })
             >
                 <option value="">Selecciona tienda</option>
 
-                {usedStores.map((store, i) => {
+
+                {stores.map((store, i) => {
                     return (
                         <option key={i} value={store}>
                             {store}
@@ -36,13 +51,29 @@ function ShoppingListProduct({ product, usedStores, onUpdateProduct, products })
                 <option value="Otros">Otros</option>
             </select>
 
+
             <input
                 type="text"
                 value={product.note || ""}
                 onChange={(e) => {
                     onUpdateProduct(product.id, "note", e.target.value);
                 }}
+                placeholder="Nota"
             />
+
+
+            <button onClick={() => onMarkAsPurchased(product.id)}>
+                Comprado
+            </button>
+
+            <button onClick={()=> navigate(`/product/${product.id}`)}>
+                Editar
+            </button>
+
+
+            <button onClick={() => onRemoveFromList(product.id)}>
+                Eliminar
+            </button>
         </div>
     );
 }
