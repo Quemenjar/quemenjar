@@ -5,9 +5,9 @@ function Filter ({options, onFilter}) {
     }
 
     return (
-        options.map((option) => {
+        options.map((option, index) => {
             return (
-                <button onClick={() => onClick(option)}>{option}</button>
+                <button key={index} onClick={() => onClick(option)}>{option}</button>
             )
         })
     )

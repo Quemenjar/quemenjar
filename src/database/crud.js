@@ -23,6 +23,17 @@ export async function getProducts() {
     }
 }
 
+export async function getProduct(id) {
+    try {        
+        const result = await axios.get(`${API_URL}/products/${id}.json`);
+        
+        return result.data;
+    } catch (error) {
+        console.error("Error fetching products:", error);
+        throw error;
+    }
+}
+
 export async function addProduct (newProductDetails) {
     try {
         const result = await axios.post(`${API_URL}/products.json`, newProductDetails);
@@ -38,7 +49,7 @@ export async function updateProduct(id, newProductDetails) {
         const result = await axios.patch(`${API_URL}/products/${id}.json`, newProductDetails);
         return result
     } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error("Error updating product:", error);
         throw error;
     }
 }
