@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import StoreAutocomplete from "./StoreAutocomplete";
 
 function ShoppingListProduct({
     product,
@@ -11,101 +11,50 @@ function ShoppingListProduct({
 
     const navigate = useNavigate();
 
-  
-    const [localName, setLocalName] = useState(product.name || "");
-    const [localNeeded, setLocalNeeded] = useState(product.needed || "");
-    const [localNote, setLocalNote] = useState(product.note || "");
-
-   
-    const nameTimeout = useRef(null);
-    const neededTimeout = useRef(null);
-    const noteTimeout = useRef(null);
-
-
-    useEffect(() => {
-        setLocalName(product.name || "");
-        setLocalNeeded(product.needed || "");
-        setLocalNote(product.note || "");
-    }, [product.name, product.needed, product.note]);
-
-  
-    useEffect(() => {
-        return () => {
-            clearTimeout(nameTimeout.current);
-            clearTimeout(neededTimeout.current);
-            clearTimeout(noteTimeout.current);
-        };
-    }, []);
-
-    
-    const handleDebouncedChange = (field, value, setLocal, timeoutRef) => {
-        setLocal(value);
-        clearTimeout(timeoutRef.current);
-        timeoutRef.current = setTimeout(() => {
-            onUpdateProduct(product.id, field, value);
-        }, 1000);
-    };
-
     return (
         <div>
             <input
                 type="text"
-                value={localName}
+                value={product.name || ""}
                 onChange={(e) => {
-                    handleDebouncedChange("name", e.target.value, setLocalName, nameTimeout);
+                    onUpdateProduct(product.id, "name", e.target.value);
                 }}
                 placeholder="Nombre del producto"
             />
 
-
             <input
                 type="number"
-                value={localNeeded}
+                value={product.needed || ""}
                 onChange={(e) => {
-                    handleDebouncedChange("needed", e.target.value, setLocalNeeded, neededTimeout);
+                    onUpdateProduct(product.id, "needed", e.target.value);
                 }}
                 min="0"
             />
 
-            <select
+            <StoreAutocomplete
                 value={product.store || ""}
-                onChange={(e) => {
-                    onUpdateProduct(product.id, "store", e.target.value);
+                stores={stores}
+                onChange={(value) => {
+                    onUpdateProduct(product.id, "store", value);
                 }}
-            >
-                <option value="">Selecciona tienda</option>
-
-
-                {stores.map((store, i) => {
-                    return (
-                        <option key={i} value={store}>
-                            {store}
-                        </option>
-                    );
-                })}
-
-                <option value="Otros">Otros</option>
-            </select>
-
+            />
 
             <input
                 type="text"
-                value={localNote}
+                value={product.note || ""}
                 onChange={(e) => {
-                    handleDebouncedChange("note", e.target.value, setLocalNote, noteTimeout);
+                    onUpdateProduct(product.id, "note", e.target.value);
                 }}
                 placeholder="Nota"
             />
-
 
             <button onClick={() => onMarkAsPurchased(product.id)}>
                 Comprado
             </button>
 
-            <button onClick={()=> navigate(`/product/${product.id}`)}>
+            <button onClick={() => navigate(`/product/${product.id}`)}>
                 Editar
             </button>
-
 
             <button onClick={() => onRemoveFromList(product.id)}>
                 Quitar
