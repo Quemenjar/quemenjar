@@ -5,12 +5,8 @@ import ShoppingListProduct from "../components/ShoppingListProduct";
 
 function ShoppingListPage() {
     const usedStores = ["Mercadona", "Lidl", "Alcampo", "Bonpreu"];
-    const [stores, setStores] = useState([]);
+    const [selectedStore, setSelectedStore] = useState("");
     const [products, setProducts] = useState([]);
-
-    const addStore = (newStore) => {
-        setStores([...stores, newStore]);
-    };
 
     const updateProduct = (id, field, value) => {
         const selectedProduct = products.find((product) => {
@@ -50,12 +46,11 @@ function ShoppingListPage() {
                         return { id: id, ...result.data[id] };
                     });
 
-                    const restockProducts = productsArray.filter((product) => {
-                        return product.restock === true;
+                    const neededProducts = productsArray.filter((product) => {
+                        return Number(product.needed) > 0;
                     });
 
-
-                    setProducts(restockProducts);
+                    setProducts(neededProducts);
                 } else {
                     setProducts([]);
                 }
@@ -65,24 +60,31 @@ function ShoppingListPage() {
             });
     }, []);
 
-    const filteredProducts = stores.length === 0
-        ? products
-        : products.filter((product) => {
-            return stores.includes(product.store);
-        });
+    const filteredProducts = products.filter((product) => {
+        const store = (product.store || "").trim();
+        const selected = (selectedStore || "").trim();
+
+        if (selected === "" || selected === "Todas") {
+            return true;
+        }
+
+        if (selected === "Otros") {
+            return store === "Otros" || store === "";
+        }
+
+        return store === selected || store === "";
+    });
 
     return (
         <div>
             <h2>Lista de la compra General</h2>
 
-            <label> Tienda o supermercado</label>
-            <StoreList usedStores={usedStores} stores={stores} onAddStore={addStore} />
-
-            <ul>
-                {stores.map((store, i) => {
-                    return <li key={i}>{store}</li>
-                })}
-            </ul>
+            <label>Tienda o supermercado</label>
+            <StoreList
+                usedStores={usedStores}
+                selectedStore={selectedStore}
+                onSelectStore={setSelectedStore}
+            />
 
             <h2>Productos</h2>
 
@@ -99,10 +101,8 @@ function ShoppingListPage() {
                     );
                 })}
             </div>
-
         </div>
     );
 }
 
 export default ShoppingListPage;
-
