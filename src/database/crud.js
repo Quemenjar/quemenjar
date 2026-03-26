@@ -59,7 +59,7 @@ export async function deleteProduct(id) {
         const result = await axios.delete(`${API_URL}/products/${id}.json`);
         return result;
     } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error("Error deleting product:", error);
         throw error;
     }
 }
