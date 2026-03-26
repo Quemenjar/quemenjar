@@ -20,11 +20,12 @@ function StoreAutocomplete({ value, stores, onChange }) {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
-    const filteredStores = stores.filter((store) => {
-        return store.toLowerCase().includes(inputValue.toLowerCase());
-    });
+    const filteredStores = stores.filter(store => store.toLowerCase().includes(inputValue.toLowerCase()));
+    const remainingStores = stores.filter((store) => filteredStores.indexOf(store) < 0).sort();
 
+    console.log(filteredStores, remainingStores);
     const handleInputChange = (e) => {
+        console.log(e);
         setInputValue(e.target.value);
         setIsOpen(true);
         setHighlightedIndex(-1);
@@ -83,41 +84,86 @@ function StoreAutocomplete({ value, stores, onChange }) {
                 onKeyDown={handleKeyDown}
                 placeholder="Tienda"
             />
-
-            {isOpen && filteredStores.length > 0 && (
-                <ul
-                    style={{
-                        position: "absolute",
-                        top: "100%",
-                        left: 0,
-                        right: 0,
-                        margin: 0,
-                        padding: 0,
-                        listStyle: "none",
-                        border: "1px solid #ccc",
-                        background: "white",
-                        zIndex: 10,
-                        maxHeight: "150px",
-                        overflowY: "auto",
-                    }}
+            
+            {isOpen &&
+                <div 
+                style={{
+                    position: "absolute",
+                    top: "100%",
+                    left: 0,
+                    right: 0,
+                    margin: 0,
+                    padding: 0,
+                    listStyle: "none",
+                    border: "1px solid #ccc",
+                    background: "white",
+                    zIndex: 10,
+                    maxHeight: "150px",
+                    overflowY: "auto",
+                }}
                 >
-                    {filteredStores.map((store, i) => {
-                        return (
-                            <li
-                                key={i}
-                                onClick={() => handleSelect(store)}
-                                style={{
-                                    padding: "4px 8px",
-                                    cursor: "pointer",
-                                    background: i === highlightedIndex ? "#eee" : "white",
-                                }}
+                    {filteredStores.length > 0 && (
+                        <ul
+                        style={{
+                            margin: 0,
+                            padding: 0,
+                            listStyle: "none",
+                            background: "white",
+                            zIndex: 10,
+                            overflowY: "auto",
+                        }}
+                        >
+                            {filteredStores.map((store, i) => {
+                                return (
+                                    <li
+                                    key={i}
+                                    onClick={() => handleSelect(store)}
+                                    style={{
+                                        padding: "4px 8px",
+                                        cursor: "pointer",
+                                        background: i === highlightedIndex ? "#eee" : "white",
+                                    }}
+                                    >
+                                        {store}
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    )}
+
+                    {remainingStores.length > 0 && (
+                        <>
+                            <hr style={{marginBottom: 0, marginInline: '50px'}} />
+                            <ul
+                            style={{
+                                margin: 0,
+                                padding: 0,
+                                listStyle: "none",
+                                background: "white",
+                                zIndex: 10,
+                                overflowY: "auto",
+                            }}
                             >
-                                {store}
-                            </li>
-                        );
-                    })}
-                </ul>
-            )}
+                                {remainingStores.map((store, i) => {
+                                    return (
+                                        <li
+                                        key={i}
+                                        onClick={() => handleSelect(store)}
+                                        style={{
+                                            padding: "4px 8px",
+                                            cursor: "pointer",
+                                            background: i === highlightedIndex ? "#eee" : "white",
+                                        }}
+                                        >
+                                            {store}
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </>
+                    )}
+                </div>
+            }
         </div>
     );
 }

@@ -2,12 +2,15 @@ import { useEffect, useState } from "react";
 import toast, { Toaster } from 'react-hot-toast';
 import { useParams } from "react-router-dom";
 import useDebounce from "../hooks/useDebounce";
-import { getProduct, updateProduct} from "../database/crud";
+import { getProducts, getProduct, updateProduct} from "../database/crud";
+import StoreAutocomplete from "../components/StoreAutocomplete";
 
 function ProductDetailPage () {
     const { id } = useParams();
     const [productDetails, setProductDetails] = useState(null);
-    const debouncedProductDetails = useDebounce(productDetails, 1000);
+    const [stores, setStores] = useState([]);
+    const debouncedProductDetails = useDebounce(productDetails, 2000);
+
 
     useEffect(() => {
         console.log("Updating product with...", debouncedProductDetails);
@@ -31,10 +34,17 @@ function ProductDetailPage () {
         setProductDetails(result);
     }
 
+    const fetchStores = async () => {
+        const products = await getProducts();
+        const stores = [...new Set(products.map(product => product.store))].sort();
+        setStores(stores);
+    }
+
     const updateDatabase = async (newProductDetails) => {
         // Update product with new details   
         const result = await updateProduct(id, newProductDetails);
         console.log(result);
+        fetchStores();
     }
 
     const onChange = async (value, field) => {
@@ -49,10 +59,31 @@ function ProductDetailPage () {
         setProductDetails(newProductDetails);
     }
 
+    const onChangeQuantity = async (newQuantity) => {
+        newQuantity = Math.max(newQuantity, 0);
+
+        // Create the updated object
+        const newProductDetails = {
+            ...productDetails,
+            quantity: newQuantity,
+        }
+
+        // Apply logic for 'needed' if quantity is 0
+        if (newQuantity === 0 && productDetails.automatic_restock > 0) {
+            newProductDetails.needed = productDetails.automatic_restock;
+        }
+
+        setProductDetails(newProductDetails);
+    }
+    
+    
+
     useEffect(() => {
         // Fetch product details from database
         fetchProduct(id);
 
+        // Fetch all product for stores list
+        fetchStores();
     }, [id])
 
     if (productDetails === null) {
@@ -75,7 +106,7 @@ function ProductDetailPage () {
                 <input 
                     type="number" 
                     value={productDetails.quantity} 
-                    onChange={(e) => {onChange(e.target.value, 'quantity')}}
+                    onChange={(e) => {onChangeQuantity(e.target.value)}}
                 />
             </label>
 
@@ -130,14 +161,11 @@ function ProductDetailPage () {
                 />
             </label>
 
-            <label>
-                Store
-                <input 
-                    type="text" 
-                    value={productDetails.store} 
-                    onChange={(e) => {onChange(e.target.value, 'store')}}
-                />
-            </label>
+            <StoreAutocomplete
+                value={productDetails.store || ""}
+                stores={stores}
+                onChange={(value) => onChange(value, 'store')}
+            />
 
             <label>
                 Note
