@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import toast, { Toaster } from 'react-hot-toast';
 import { useParams } from "react-router-dom";
-import useDebounce from "../hooks/UseDebounce";
+import useDebounce from "../hooks/useDebounce";
 import { getProduct, updateProduct} from "../database/crud";
 
 function ProductDetailPage () {
