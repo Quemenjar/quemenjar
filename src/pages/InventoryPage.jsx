@@ -15,9 +15,9 @@ function InventoryPage () {
 
     useEffect(() => {
         if (debouncedEditedProduct !== null) {
-            const id = editedProduct.id;
-            delete editedProduct.id;
-            notifyPromise(updateDatabase(id, debouncedEditedProduct));
+            const id = debouncedEditedProduct.id;
+            delete debouncedEditedProduct.id;
+            notifyPromise(updateProduct(id, debouncedEditedProduct));
             setEditedProduct(null);
         }
         
@@ -86,18 +86,13 @@ function InventoryPage () {
         setShowOutOfStock(!showOutOfStock);
     }
 
-    const updateDatabase = async (id, newProductDetails) => {
-        // Update product with new details   
-        const result = await updateProduct(id, newProductDetails);
-    }
-
     const onChange = async (id, value, field) => {
         // Update product with new field value
-        
+
         if (editedProduct && editedProduct.id !== id) {
             const oldId = editedProduct.id;
             delete editedProduct.id;
-            updateDatabase(oldId, editedProduct);
+            notifyPromise(updateProduct(oldId, editedProduct));
         }
 
         const newProductList = productList.map((product) => {
@@ -106,7 +101,6 @@ function InventoryPage () {
                     ...product,
                     [field]: value
                 }
-
                 setEditedProduct({...update});
                 return update;
             } else {
@@ -114,23 +108,46 @@ function InventoryPage () {
             }
         })
 
+        console.log(newProductList);
         setProductList(newProductList);
     }
 
     const onChangeQuantity = async (id, newQuantity) => {
+        newQuantity = Math.max(newQuantity, 0);
+
+        const newProductList = productList.map((product) => {
+            if (product.id === id) {
+                // Create the updated object
+                const updatedProduct = { 
+                    ...product, 
+                    quantity: newQuantity 
+                };
+
+                // Apply logic for 'needed' if quantity is 0
+                if (newQuantity === 0 && product.automatic_restock > 0) {
+                    updatedProduct.needed = product.automatic_restock;
+                }
+
+                // Sync with your debounced effect
+                setEditedProduct({ ...updatedProduct });
+                return updatedProduct;
+            }
+            return product;
+        });
+
+        setProductList(newProductList);
+    }
+
+    const onAutomaticRestock = async (id) => {
         const product = productList.find(product => product.id === id);
-        const update = {
-            quantity: Math.max(newQuantity, 0)
+
+        let newAutomaticRestock = 0;
+
+        if (product.automatic_restock === 0) {
+            newAutomaticRestock = product.quantity > 0 ? product.quantity : 1;
         }
 
-        if (update.quantity === 0 && product.automatic_restock > 0) {
-            update.needed = product.automatic_restock
-        }
-
-        const result = await updateProduct(id, update);
-        if (result.status === 200) {
-            fetchProducts();
-        }
+        onChange(product.id, newAutomaticRestock, 'automatic_restock');
     }
 
     const onDelete = async (id) => {
@@ -170,6 +187,7 @@ function InventoryPage () {
                                 productDetails={product} 
                                 onChange={onChange}
                                 onChangeQuantity={onChangeQuantity}
+                                onAutomaticRestock={onAutomaticRestock}
                                 onDelete={onDelete}
                             />
                         )

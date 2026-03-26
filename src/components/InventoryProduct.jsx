@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 
-function InventoryProduct ({productDetails, onChange, onChangeQuantity, onDelete}) {
+function InventoryProduct ({productDetails, onChange, onChangeQuantity, onAutomaticRestock, onDelete}) {
     
     return (
         <div>
@@ -43,8 +43,8 @@ function InventoryProduct ({productDetails, onChange, onChangeQuantity, onDelete
                 />
             </label>
 
-            <button onClick={(e) => {onChange(productDetails.id, !productDetails.usual, 'usual')}}>
-                { productDetails.usual ? 'Usual' : 'Unusual'}
+            <button onClick={(e) => {onAutomaticRestock(productDetails.id)}}>
+                Automatic restock {productDetails.automatic_restock > 0 ? '✅' : '❌'}
             </button>
 
             <button>
