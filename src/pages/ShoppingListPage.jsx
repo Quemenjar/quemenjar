@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { getProducts, addProduct, updateProduct } from "../database/crud";
-import useDebounce from "../hooks/UseDebounce";
+import useDebounce from "../hooks/useDebounce";
 import StoreList from "../components/StoreList";
 import ShoppingListProduct from "../components/ShoppingListProduct";
 
