@@ -4,6 +4,7 @@ import { getProducts, addProduct, updateProduct } from "../database/crud";
 import useDebounce from "../hooks/useDebounce";
 import StoreList from "../components/StoreList";
 import ShoppingListProduct from "../components/ShoppingListProduct";
+import PageHeader from "../components/PageHeader";
 
 function ShoppingListPage() {
     const [allProducts, setAllProducts] = useState([]);
@@ -164,18 +165,14 @@ function ShoppingListPage() {
     return (
         <div>
             <Toaster />
-            <h2>Lista de la compra General</h2>
 
-            <label>Tienda o supermercado</label>
+            <PageHeader title={"Lista de la compra"}  onAddProduct={handleAddProduct} />
+
             <StoreList
                 stores={dynamicStores}
                 selectedStore={selectedStore}
                 onSelectStore={setSelectedStore}
             />
-
-            <button onClick={handleAddProduct}>Añadir producto</button>
-
-            <h2>Productos</h2>
 
             <div>
                 {filteredProducts.map((product) => {

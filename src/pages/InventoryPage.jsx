@@ -4,6 +4,7 @@ import Filter from "../components/Filter";
 import InventoryProduct from "../components/InventoryProduct";
 import { getProducts, addProduct, updateProduct, deleteProduct } from "../database/crud";
 import useDebounce from "../hooks/useDebounce";
+import PageHeader from "../components/PageHeader";
 
 function InventoryPage () {
     const [productList, setProductList] = useState([]);
@@ -28,7 +29,16 @@ function InventoryPage () {
         {
             loading: 'Saving product...',
             success: <b>Product saved</b>,
-            error: <b>Could not save.</b>
+            error: <b>Could not save</b>
+        }
+    );
+
+    const notifyDelete = (promise) => toast.promise(
+        promise,
+        {
+            loading: 'Deleting product...',
+            success: <b>Product deleted</b>,
+            error: <b>Could not delete</b>
         }
     );
     
@@ -108,7 +118,6 @@ function InventoryPage () {
             }
         })
 
-        console.log(newProductList);
         setProductList(newProductList);
     }
 
@@ -152,10 +161,9 @@ function InventoryPage () {
 
     const onDelete = async (id) => {
         // Delete product
-        const result = await deleteProduct(id);
-        if (result.status === 200) {
-            fetchProducts();
-        }
+        const newProductList = productList.filter(product => product.id !== id);
+        setProductList(newProductList);
+        notifyDelete(deleteProduct(id));
     }
 
     useEffect(() => {
@@ -171,11 +179,12 @@ function InventoryPage () {
     return (
         <>  
             <Toaster />
+
+            <PageHeader title={"Inventario"}  onAddProduct={onAddProduct} />
+
             <Filter options={['Todo', 'Congelador', 'Nevera', 'Despensa']} onFilter={onFilter}/>
             <button onClick={toggleOutOfStock}>Show out of stock</button>
-            <br />
-
-            <button onClick={onAddProduct}>Add product</button>
+            
 
             <div>
 
