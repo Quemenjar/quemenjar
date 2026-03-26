@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import StoreAutocomplete from "./StoreAutocomplete";
 
 function ShoppingListProduct({
     product,
@@ -21,7 +22,6 @@ function ShoppingListProduct({
                 placeholder="Nombre del producto"
             />
 
-
             <input
                 type="number"
                 value={product.needed || ""}
@@ -31,26 +31,13 @@ function ShoppingListProduct({
                 min="0"
             />
 
-            <select
+            <StoreAutocomplete
                 value={product.store || ""}
-                onChange={(e) => {
-                    onUpdateProduct(product.id, "store", e.target.value);
+                stores={stores}
+                onChange={(value) => {
+                    onUpdateProduct(product.id, "store", value);
                 }}
-            >
-                <option value="">Selecciona tienda</option>
-
-
-                {stores.map((store, i) => {
-                    return (
-                        <option key={i} value={store}>
-                            {store}
-                        </option>
-                    );
-                })}
-
-                <option value="Otros">Otros</option>
-            </select>
-
+            />
 
             <input
                 type="text"
@@ -61,15 +48,13 @@ function ShoppingListProduct({
                 placeholder="Nota"
             />
 
-
             <button onClick={() => onMarkAsPurchased(product.id)}>
                 Comprado
             </button>
 
-            <button onClick={()=> navigate(`/product/${product.id}`)}>
+            <button onClick={() => navigate(`/product/${product.id}`)}>
                 Editar
             </button>
-
 
             <button onClick={() => onRemoveFromList(product.id)}>
                 Quitar

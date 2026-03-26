@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { getProducts, addProduct, updateProduct } from "../database/crud";
+import useDebounce from "../hooks/UseDebounce";
 import StoreList from "../components/StoreList";
 import ShoppingListProduct from "../components/ShoppingListProduct";
 
 function ShoppingListPage() {
     const [allProducts, setAllProducts] = useState([]);
     const [selectedStore, setSelectedStore] = useState("");
+    const [editedProduct, setEditedProduct] = useState(null);
+    const debouncedEditedProduct = useDebounce(editedProduct, 1000);
 
-    // Cargar todos los productos de Firebase al montar
     useEffect(() => {
         getProducts()
             .then((products) => {
@@ -18,12 +21,28 @@ function ShoppingListPage() {
             });
     }, []);
 
-    // Productos con needed > 0 
+    useEffect(() => {
+        if (debouncedEditedProduct !== null) {
+            const id = debouncedEditedProduct.id;
+            const { id: _, ...dataToUpdate } = debouncedEditedProduct;
+            notifyPromise(updateProduct(id, dataToUpdate));
+            setEditedProduct(null);
+        }
+    }, [debouncedEditedProduct]);
+
+    const notifyPromise = (promise) => toast.promise(
+        promise,
+        {
+            loading: "Saving product...",
+            success: <b>Product saved</b>,
+            error: <b>Could not save.</b>,
+        }
+    );
+
     const neededProducts = allProducts.filter((product) => {
         return Number(product.needed) > 0;
     });
 
-    // Tiendas dinámicas: extraer de TODOS los productos, sin repetir, sin vacíos
     const dynamicStores = [
         ...new Set(
             allProducts
@@ -32,7 +51,6 @@ function ShoppingListPage() {
         ),
     ].sort();
 
-    // Filtrar productos según la tienda seleccionada
     const filteredProducts = neededProducts.filter((product) => {
         const store = (product.store || "").trim();
         const selected = (selectedStore || "").trim();
@@ -48,31 +66,24 @@ function ShoppingListPage() {
         return store === selected || store === "";
     });
 
-    // Actualizar un campo de un producto
     const handleUpdateProduct = (id, field, value) => {
-        const selectedProduct = allProducts.find((product) => product.id === id);
-        if (!selectedProduct) return;
+        if (editedProduct && editedProduct.id !== id) {
+            const { id: oldId, ...oldData } = editedProduct;
+            updateProduct(oldId, oldData);
+        }
 
-        const updatedData = { [field]: value };
+        const updatedProducts = allProducts.map((product) => {
+            if (product.id === id) {
+                const update = { ...product, [field]: value };
+                setEditedProduct({ ...update });
+                return update;
+            }
+            return product;
+        });
 
-        updateProduct(id, updatedData)
-            .then((result) => {
-                if (result.status === 200) {
-                    const updatedProducts = allProducts.map((product) => {
-                        if (product.id === id) {
-                            return { ...product, ...updatedData };
-                        }
-                        return product;
-                    });
-                    setAllProducts(updatedProducts);
-                }
-            })
-            .catch((error) => {
-                console.error("Error actualizando producto:", error);
-            });
+        setAllProducts(updatedProducts);
     };
 
-    // Marcar como comprado
     const handleMarkAsPurchased = (id) => {
         const product = allProducts.find((p) => p.id === id);
         if (!product) return;
@@ -84,51 +95,45 @@ function ShoppingListPage() {
         const today = new Date().toISOString().split("T")[0];
 
         const updatedData = {
-            quantity: newQuantity,       // number (tipo original)
-            needed: String(0),           // string (tipo original)
+            quantity: newQuantity,
+            needed: String(0),
             buy_date: today,
             expiration_date: "",
         };
 
-        updateProduct(id, updatedData)
-            .then((result) => {
-                if (result.status === 200) {
-                    const updatedProducts = allProducts.map((product) => {
-                        if (product.id === id) {
-                            return { ...product, ...updatedData };
-                        }
-                        return product;
-                    });
-                    setAllProducts(updatedProducts);
-                }
+        notifyPromise(updateProduct(id, updatedData))
+            .then(() => {
+                const updatedProducts = allProducts.map((product) => {
+                    if (product.id === id) {
+                        return { ...product, ...updatedData };
+                    }
+                    return product;
+                });
+                setAllProducts(updatedProducts);
             })
             .catch((error) => {
                 console.error("Error marcando como comprado:", error);
             });
     };
 
-    // Quitar de la lista 
     const handleRemoveFromList = (id) => {
         const updatedData = { needed: String(0) };
 
-        updateProduct(id, updatedData)
-            .then((result) => {
-                if (result.status === 200) {
-                    const updatedProducts = allProducts.map((product) => {
-                        if (product.id === id) {
-                            return { ...product, ...updatedData };
-                        }
-                        return product;
-                    });
-                    setAllProducts(updatedProducts);
-                }
+        notifyPromise(updateProduct(id, updatedData))
+            .then(() => {
+                const updatedProducts = allProducts.map((product) => {
+                    if (product.id === id) {
+                        return { ...product, ...updatedData };
+                    }
+                    return product;
+                });
+                setAllProducts(updatedProducts);
             })
             .catch((error) => {
                 console.error("Error eliminando de la lista:", error);
             });
     };
 
-    // Añadir producto nuevo (fila vacía con needed = 1)
     const handleAddProduct = () => {
         const newProductDetails = {
             name: "",
@@ -158,6 +163,7 @@ function ShoppingListPage() {
 
     return (
         <div>
+            <Toaster />
             <h2>Lista de la compra General</h2>
 
             <label>Tienda o supermercado</label>
