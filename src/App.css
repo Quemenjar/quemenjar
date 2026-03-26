@@ -4,8 +4,9 @@
     --sage: #C0DD97;
     --mint: #EAF3DE;
     --border: #e0e0e0;
-    
-    background-color: #F9F8F5;;
+
+    background-color: #F9F8F5;
+    ;
     margin-inline: 8%;
 }
 
@@ -102,7 +103,56 @@ ul {
     margin-bottom: 10px;
 }
 
-.shopping-list-product > div {
+.inventory-list-product {
+    background-color: white;
+    color: #333;
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-between;
+    align-items: center;
+    line-height: 2rem;
+    height: 3rem;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    margin-bottom: 10px;
+}
+
+.filter-group-buttons {
+    background-color: white;
+    color: #333;
+    display: flex;
+    flex-grow: 1;
+    padding-inline: 20px;
+    justify-content: space-between;
+    align-items: center;
+    line-height: 2rem;
+    height: 3rem;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    margin-bottom: 10px;
+}
+
+.filter-group-buttons button{
+     background-color: var(--mint);
+    color: var(--pine-green);
+    padding: 6px 12px;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.filter-group-buttons button.filter-active {
+    background-color: var(--fern);
+    color: var(--mint);
+}
+
+.shopping-list-product>div {
+    width: 30%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.inventory-list-product>div {
     width: 30%;
     display: flex;
     justify-content: space-between;
@@ -114,9 +164,46 @@ ul {
     padding-left: 0.5rem;
 }
 
+.inventory-list-product input {
+    border: 0;
+    padding-left: 0.5rem;
+}
+
 .shopping-list-product input:focus {
     outline: none;
     padding-left: 0.5rem;
+}
+
+.inventory-list-product input:focus {
+    outline: none;
+    padding-left: 0.5rem;
+}
+
+.selector-inventario {
+    background-color: var(--mint);
+    color: var(--pine-green);
+    padding: 6px 12px;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: bold;
+    border: 0;
+}
+
+.product-title {
+    flex: 1;
+}
+
+.product-note {
+    font-style: italic;
+}
+
+.expiration-date {
+    background-color: white;
+    color: var(--pine-green);
+    padding: 6px 12px;
+    border-radius: 10px;
+    text-align: center;
+    border: 4px solid #27500A;
 }
 
 .input-autocomplete {
@@ -126,14 +213,6 @@ ul {
     border-radius: 10px;
     text-align: center;
     font-weight: bold;
-}
-
-.product-title {
-    flex: 1;
-}
-
-.product-note {
-    font-style: italic;
 }
 
 .product-right {
@@ -158,8 +237,112 @@ button.purchased-button {
     font-weight: bold;
 }
 
-
+.product-right a {
+    text-decoration: none;
+    color: inherit;
+}
 
 .product-quantity {
     width: 50px;
+}
+
+
+/* ProductDetailPage*/
+
+.detail-page {
+    padding: 0 16px 40px;
+}
+
+.detail-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 20px;
+    padding-left: 4px;
+    margin-top: 30px;
+}
+
+.detail-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.detail-row-full {
+    margin-top: 10px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.detail-row-double {
+    display: flex;
+    gap: 10px;
+}
+
+.detail-row-triple {
+    display: flex;
+    gap: 10px;
+}
+
+.detail-row-double .detail-field,
+.detail-row-triple .detail-field {
+    flex: 1;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.detail-label {
+    font-size: 13px;
+    color: #888;
+    white-space: nowrap;
+    margin-right: 12px;
+}
+
+.detail-input {
+    border: none;
+    outline: none;
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+    text-align: right;
+    background: transparent;
+    width: 100%;
+}
+
+.detail-select-green {
+    background: var(--mint);
+    color: var(--pine-green);
+    border: none;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 500;
+    outline: none;
+    cursor: pointer;
+}
+
+.detail-field-green {
+    background: var(--mint) !important;
+    border-color: var(--mint) !important;
+}
+
+.detail-field-green .detail-label {
+    color: var(--fern);
+}
+
+@media (max-width: 600px) {
+    .detail-row-double,
+    .detail-row-triple {
+        flex-direction: column;
+    }
 }

@@ -1,4 +1,4 @@
-function Filter ({options, onFilter}) {
+function Filter ({options, onFilter, activeOption}) {
     
     const onClick = (option) => {
         onFilter(option);
@@ -7,7 +7,14 @@ function Filter ({options, onFilter}) {
     return (
         options.map((option, index) => {
             return (
-                <button key={index} onClick={() => onClick(option)}>{option}</button>
+                <button 
+                    key={index} 
+                    className={option === activeOption ? "filter-active" : ""}
+                    onClick={() => onClick(option)}
+                >
+                    {option}
+                    
+                </button>
             )
         })
     )

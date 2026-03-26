@@ -92,90 +92,109 @@ function ProductDetailPage () {
         )
     }
 
-    return (
-        <div>
+   return (
+        <div className="detail-page">
             <Toaster />
-            <input 
-                type="text" 
-                value={productDetails.name} 
-                onChange={(e) => {onChange(e.target.value, 'name')}}
-            />
 
-            <label>
-                Quantity
-                <input 
-                    type="number" 
-                    value={productDetails.quantity} 
-                    onChange={(e) => {onChangeQuantity(e.target.value)}}
-                />
-            </label>
+            <h2 className="detail-title">{productDetails.name || "Nuevo producto"}</h2>
 
-            <label>
-                Storage
+            <div className="detail-info">
+                <div className="detail-row-full">
+                    <label className="detail-label">Nombre</label>
+                    <input
+                        className="detail-input"
+                        type="text"
+                        value={productDetails.name}
+                        onChange={(e) => { onChange(e.target.value, 'name') }}
+                    />
+                </div>
 
-                <select 
-                    name="storage" 
-                    onChange={(e) => {onChange(e.target.value, 'storage')}}
-                    value={productDetails.storage}
-                >
-                    <option value="">-</option>
-                    <option value="Congelador">Congelador</option>
-                    <option value="Nevera">Nevera</option>
-                    <option value="Despensa">Despensa</option>
-                </select>
-            </label>
+                <div className="detail-row-triple">
+                    <div className="detail-field">
+                        <label className="detail-label">Quantity</label>
+                        <input
+                            className="detail-input"
+                            type="number"
+                            value={productDetails.quantity}
+                            onChange={(e) => { onChangeQuantity(e.target.value) }}
+                        />
+                    </div>
+                    <div className="detail-field">
+                        <label className="detail-label">Needed</label>
+                        <input
+                            className="detail-input"
+                            type="number"
+                            value={productDetails.needed}
+                            onChange={(e) => { onChange(e.target.value, 'needed') }}
+                        />
+                    </div>
+                    <div className="detail-field">
+                        <label className="detail-label">Automatic restock</label>
+                        <input
+                            className="detail-input"
+                            type="number"
+                            value={productDetails.automatic_restock}
+                            onChange={(e) => { onChange(e.target.value, 'automatic_restock') }}
+                        />
+                    </div>
+                </div>
 
-            <label>
-                Needed
-                <input 
-                    type="number" 
-                    value={productDetails.needed} 
-                    onChange={(e) => {onChange(e.target.value, 'needed')}}
-                />
-            </label>
+                <div className="detail-row-double">
+                    <div className="detail-field detail-field-green">
+                        <label className="detail-label">Storage</label>
+                        <select
+                            className="detail-select-green"
+                            name="storage"
+                            onChange={(e) => { onChange(e.target.value, 'storage') }}
+                            value={productDetails.storage}
+                        >
+                            <option value="">-</option>
+                            <option value="Congelador">Congelador</option>
+                            <option value="Nevera">Nevera</option>
+                            <option value="Despensa">Despensa</option>
+                        </select>
+                    </div>
+                    <div className="detail-field detail-field-green">
+                        <label className="detail-label">Store</label>
+                        <StoreAutocomplete
+                            value={productDetails.store || ""}
+                            stores={stores}
+                            onChange={(value) => onChange(value, 'store')}
+                        />
+                    </div>
+                </div>
 
-            <label>
-                Automatic restock
-                <input 
-                    type="number" 
-                    value={productDetails.automatic_restock} 
-                    onChange={(e) => {onChange(e.target.value, 'automatic_restock')}}
-                />
-            </label>
+                <div className="detail-row-double">
+                    <div className="detail-field">
+                        <label className="detail-label">Buy date</label>
+                        <input
+                            className="detail-input"
+                            type="date"
+                            value={productDetails.buy_date}
+                            onChange={(e) => { onChange(e.target.value, 'buy_date') }}
+                        />
+                    </div>
+                    <div className="detail-field">
+                        <label className="detail-label">Expiration date</label>
+                        <input
+                            className="detail-input"
+                            type="date"
+                            value={productDetails.expiration_date}
+                            onChange={(e) => { onChange(e.target.value, 'expiration_date') }}
+                        />
+                    </div>
+                </div>
 
-            <label>
-                Expiration date
-                <input 
-                    type="date" 
-                    value={productDetails.expiration_date} 
-                    onChange={(e) => {onChange(e.target.value, 'expiration_date')}}
-                />
-            </label>
-
-            <label>
-                Buy date
-                <input 
-                    type="date" 
-                    value={productDetails.buy_date} 
-                    onChange={(e) => {onChange(e.target.value, 'buy_date')}}
-                />
-            </label>
-
-            <StoreAutocomplete
-                value={productDetails.store || ""}
-                stores={stores}
-                onChange={(value) => onChange(value, 'store')}
-            />
-
-            <label>
-                Note
-                <input 
-                    type="text" 
-                    value={productDetails.note} 
-                    onChange={(e) => {onChange(e.target.value, 'note')}}
-                />
-            </label>
-            
+                <div className="detail-row-full">
+                    <label className="detail-label">Note</label>
+                    <input
+                        className="detail-input"
+                        type="text"
+                        value={productDetails.note}
+                        onChange={(e) => { onChange(e.target.value, 'note') }}
+                    />
+                </div>
+            </div>
         </div>
     )
 }

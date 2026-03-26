@@ -6,7 +6,7 @@ import { getProducts, addProduct, updateProduct, deleteProduct } from "../databa
 import useDebounce from "../hooks/useDebounce";
 import PageHeader from "../components/PageHeader";
 
-function InventoryPage () {
+function InventoryPage() {
     const [productList, setProductList] = useState([]);
     const [activeStorage, setActiveStorage] = useState(null);
     const [showOutOfStock, setShowOutOfStock] = useState(false);
@@ -21,7 +21,7 @@ function InventoryPage () {
             notifyPromise(updateProduct(id, debouncedEditedProduct));
             setEditedProduct(null);
         }
-        
+
     }, [debouncedEditedProduct]);
 
     const notifyPromise = (promise) => toast.promise(
@@ -41,13 +41,13 @@ function InventoryPage () {
             error: <b>Could not delete</b>
         }
     );
-    
-    
+
+
     const fetchProducts = async () => {
         const products = await getProducts();
         setProductList(products);
     }
-     
+
 
     const displayedProducts = useMemo(() => {
         let filteredProducts = []
@@ -56,11 +56,11 @@ function InventoryPage () {
         } else {
             filteredProducts = productList;
         }
-        
+
         return filteredProducts.filter((product) => {
             return showOutOfStock || product.quantity > 0 || product.automatic_restock > 0;
         })
-        
+
     }, [productList, activeStorage, showOutOfStock]);
 
 
@@ -111,7 +111,7 @@ function InventoryPage () {
                     ...product,
                     [field]: value
                 }
-                setEditedProduct({...update});
+                setEditedProduct({ ...update });
                 return update;
             } else {
                 return product;
@@ -127,9 +127,9 @@ function InventoryPage () {
         const newProductList = productList.map((product) => {
             if (product.id === id) {
                 // Create the updated object
-                const updatedProduct = { 
-                    ...product, 
-                    quantity: newQuantity 
+                const updatedProduct = {
+                    ...product,
+                    quantity: newQuantity
                 };
 
                 // Apply logic for 'needed' if quantity is 0
@@ -177,31 +177,40 @@ function InventoryPage () {
     }
 
     return (
-        <>  
+        <>
             <Toaster />
 
-            <PageHeader title={"Inventario"}  onAddProduct={onAddProduct} />
+            <PageHeader title={"Inventario"} onAddProduct={onAddProduct} />
 
-            <Filter options={['Todo', 'Congelador', 'Nevera', 'Despensa']} onFilter={onFilter}/>
-            <button onClick={toggleOutOfStock}>Show out of stock</button>
-            
+            <div className="filter-group-buttons">
+                <Filter 
+                    options={['Todo', 'Congelador', 'Nevera', 'Despensa']} 
+                    onFilter={onFilter}
+                    activeOption={activeStorage === null ? "Todo" : activeStorage}
+                />
+                <button 
+                    className={showOutOfStock ? "filter-active" : ""}
+                    onClick={toggleOutOfStock}>Show out of stock
+                 </button>
+            </div>
+
 
             <div>
 
-                { displayedProducts.map((product) => {
+                {displayedProducts.map((product) => {
                     //if (product.quantity > 0 || product.usual){
-                        return (
-                            <InventoryProduct 
-                                key={product.id}
-                                productDetails={product} 
-                                onChange={onChange}
-                                onChangeQuantity={onChangeQuantity}
-                                onAutomaticRestock={onAutomaticRestock}
-                                onDelete={onDelete}
-                            />
-                        )
+                    return (
+                        <InventoryProduct
+                            key={product.id}
+                            productDetails={product}
+                            onChange={onChange}
+                            onChangeQuantity={onChangeQuantity}
+                            onAutomaticRestock={onAutomaticRestock}
+                            onDelete={onDelete}
+                        />
+                    )
                     //}
-                }) }
+                })}
             </div>
         </>
     )

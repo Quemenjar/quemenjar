@@ -1,59 +1,65 @@
 import { Link } from "react-router-dom"
 
-function InventoryProduct ({productDetails, onChange, onChangeQuantity, onAutomaticRestock, onDelete}) {
-    
+function InventoryProduct({ productDetails, onChange, onChangeQuantity, onAutomaticRestock, onDelete }) {
+
     return (
-        <div>
-            <input 
-                type="text" 
-                value={productDetails.name} 
-                onChange={(e) => {onChange(productDetails.id, e.target.value, 'name')}}
-            />
-
-            <label>
-                Quantity
-                <input 
-                    type="number" 
-                    value={productDetails.quantity} 
-                    onChange={(e) => {onChangeQuantity(productDetails.id, e.target.value)}}
+        <div className="inventory-list-product">
+            <div className="product-left">
+                <input
+                    className="product-title"
+                    type="text"
+                    value={productDetails.name}
+                    onChange={(e) => { onChange(productDetails.id, e.target.value, 'name') }}
                 />
-            </label>
 
-            <label>
-                Storage
+                <label>
+                    <input
+                        className="product-quantity"
+                        type="number"
+                        value={productDetails.quantity}
+                        onChange={(e) => { onChangeQuantity(productDetails.id, e.target.value) }}
+                    />
+                </label>
+            </div>
 
-                <select 
-                    name="storage" 
-                    onChange={(e) => {onChange(productDetails.id, e.target.value, 'storage')}}
-                    value={productDetails.storage}
-                >
-                    <option value="">-</option>
-                    <option value="Congelador">Congelador</option>
-                    <option value="Nevera">Nevera</option>
-                    <option value="Despensa">Despensa</option>
-                </select>
-            </label>
+            <div className="product-middle">
+                <label>
 
-            <label>
-                Expiration date
-                <input 
-                    type="date" 
-                    value={productDetails.expiration_date} 
-                    onChange={(e) => {onChange(productDetails.id, e.target.value, 'expiration_date')}}
-                />
-            </label>
+                    <select className="selector-inventario"
+                        name="storage"
+                        onChange={(e) => { onChange(productDetails.id, e.target.value, 'storage') }}
+                        value={productDetails.storage}
+                    >
+                        <option value="">-</option>
+                        <option value="Congelador">Congelador</option>
+                        <option value="Nevera">Nevera</option>
+                        <option value="Despensa">Despensa</option>
+                    </select>
+                </label>
 
-            <button onClick={(e) => {onAutomaticRestock(productDetails.id)}}>
-                Automatic restock {productDetails.automatic_restock > 0 ? '✅' : '❌'}
-            </button>
+                <label>
+                    <input
+                        className="expiration-date"
+                        type="date"
+                        value={productDetails.expiration_date}
+                        onChange={(e) => { onChange(productDetails.id, e.target.value, 'expiration_date') }}
+                    />
+                </label>
+            </div>
 
-            <button>
-                <Link to={`/product/${productDetails.id}`} >Editar</Link>
-            </button>
+            <div className="product-right">
+                <button className="purchased-button" onClick={(e) => { onAutomaticRestock(productDetails.id) }}>
+                    Automatic restock {productDetails.automatic_restock > 0 ? '✅' : '❌'}
+                </button>
 
-            <button onClick={() => onDelete(productDetails.id)}>
-                Delete
-            </button>
+                <button>
+                    <Link to={`/product/${productDetails.id}`} >Editar</Link>
+                </button>
+
+                <button onClick={() => onDelete(productDetails.id)}>
+                    Delete
+                </button>
+            </div>
         </div>
     )
 }

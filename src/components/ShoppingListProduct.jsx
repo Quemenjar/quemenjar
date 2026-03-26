@@ -13,7 +13,6 @@ function ShoppingListProduct({
 
     return (
         <div className="shopping-list-product">
-
             <div className="product-left">
                 <input 
                     className="product-title"
