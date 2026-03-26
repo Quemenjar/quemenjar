@@ -12,53 +12,63 @@ function ShoppingListProduct({
     const navigate = useNavigate();
 
     return (
-        <div>
-            <input
-                type="text"
-                value={product.name || ""}
-                onChange={(e) => {
-                    onUpdateProduct(product.id, "name", e.target.value);
-                }}
-                placeholder="Nombre del producto"
-            />
+        <div className="shopping-list-product">
 
-            <input
-                type="number"
-                value={product.needed || ""}
-                onChange={(e) => {
-                    onUpdateProduct(product.id, "needed", e.target.value);
-                }}
-                min="0"
-            />
+            <div className="product-left">
+                <input 
+                    className="product-title"
+                    type="text"
+                    value={product.name || ""}
+                    onChange={(e) => {
+                        onUpdateProduct(product.id, "name", e.target.value);
+                    }}
+                    placeholder="Nombre del producto"
+                />
 
-            <StoreAutocomplete
-                value={product.store || ""}
-                stores={stores}
-                onChange={(value) => {
-                    onUpdateProduct(product.id, "store", value);
-                }}
-            />
+                <input
+                    className="product-quantity"
+                    type="number"
+                    value={product.needed || ""}
+                    onChange={(e) => {
+                        onUpdateProduct(product.id, "needed", e.target.value);
+                    }}
+                    min="0"
+                />
+            </div>
 
-            <input
-                type="text"
-                value={product.note || ""}
-                onChange={(e) => {
-                    onUpdateProduct(product.id, "note", e.target.value);
-                }}
-                placeholder="Nota"
-            />
+            <div className="product-middle">
+                <StoreAutocomplete
+                    value={product.store || ""}
+                    stores={stores}
+                    onChange={(value) => {
+                        onUpdateProduct(product.id, "store", value);
+                    }}
+                />
 
-            <button onClick={() => onMarkAsPurchased(product.id)}>
-                Comprado
-            </button>
+                <input
+                    className="product-note"
+                    type="text"
+                    value={product.note || ""}
+                    onChange={(e) => {
+                        onUpdateProduct(product.id, "note", e.target.value);
+                    }}
+                    placeholder="Nota"
+                />
+            </div>
+            
+            <div className="product-right">
+                <button className="purchased-button" onClick={() => onMarkAsPurchased(product.id)}>
+                    Comprado
+                </button>
 
-            <button onClick={() => navigate(`/product/${product.id}`)}>
-                Editar
-            </button>
+                <button onClick={() => navigate(`/product/${product.id}`)}>
+                    Editar
+                </button>
 
-            <button onClick={() => onRemoveFromList(product.id)}>
-                Quitar
-            </button>
+                <button onClick={() => onRemoveFromList(product.id)}>
+                    Quitar
+                </button>
+            </div>
         </div>
     );
 }

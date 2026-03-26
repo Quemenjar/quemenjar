@@ -82,7 +82,8 @@ function StoreAutocomplete({ value, stores, onChange }) {
                 onChange={handleInputChange}
                 onFocus={handleFocus}
                 onKeyDown={handleKeyDown}
-                placeholder="Tienda"
+                placeholder="Sin tienda"
+                className="input-autocomplete"
             />
             
             {isOpen &&

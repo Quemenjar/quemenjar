@@ -4,14 +4,14 @@ function StoreList({
     onSelectStore,
 }) {
     return (
-        <div>
+        <div className="store-list-selector">
             <select
                 value={selectedStore}
                 onChange={(e) => {
                     onSelectStore(e.target.value);
                 }}
             >
-                <option value="">Todas</option>
+                <option value="">Todas las tiendas</option>
 
 
                 {stores.map((store, i) => {
