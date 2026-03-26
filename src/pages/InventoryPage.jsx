@@ -3,7 +3,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import Filter from "../components/Filter";
 import InventoryProduct from "../components/InventoryProduct";
 import { getProducts, addProduct, updateProduct, deleteProduct } from "../database/crud";
-import useDebounce from "../hooks/UseDebounce";
+import useDebounce from "../hooks/useDebounce";
 
 function InventoryPage () {
     const [productList, setProductList] = useState([]);
