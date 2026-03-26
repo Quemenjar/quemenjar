@@ -1,18 +1,19 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 function Navbar () {
     return (
-        <nav>
+        <nav className="navbar display-horizontal">
+            <h1>Quemenjar</h1>
             <ul>
                 <li>
-                    <Link to="/">
+                    <NavLink to="/">
                         Inventario
-                    </Link>
+                    </NavLink>
                 </li>
                 <li>
-                    <Link to="/shopping-list">
+                    <NavLink to="/shopping-list">
                         Lista de la compra
-                    </Link>
+                    </NavLink>
                 </li>
             </ul>
         </nav>
