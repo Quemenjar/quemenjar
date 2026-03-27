@@ -75,7 +75,11 @@ function StoreAutocomplete({ value, stores, onChange }) {
     };
 
     return (
-        <div ref={wrapperRef} style={{ position: "relative", display: "inline-block" }}>
+        <div 
+            ref={wrapperRef} 
+            style={{ position: "relative", display: "inline-block" }}
+            className="store-autocomplete"
+        >
             <input
                 type="text"
                 value={inputValue}
@@ -87,44 +91,22 @@ function StoreAutocomplete({ value, stores, onChange }) {
             />
             
             {isOpen &&
-                <div 
+                <div className="select-autocomplete"
                 style={{
-                    position: "absolute",
-                    top: "100%",
-                    left: 0,
-                    right: 0,
-                    margin: 0,
-                    padding: 0,
-                    listStyle: "none",
-                    border: "1px solid #ccc",
-                    background: "white",
-                    zIndex: 10,
-                    maxHeight: "150px",
-                    overflowY: "auto",
+                    
                 }}
                 >
                     {filteredStores.length > 0 && (
-                        <ul
-                        style={{
-                            margin: 0,
-                            padding: 0,
-                            listStyle: "none",
-                            background: "white",
-                            zIndex: 10,
-                            overflowY: "auto",
-                        }}
-                        >
+                        <ul className="ul-autocomplete">
                             {filteredStores.map((store, i) => {
                                 return (
                                     <li
-                                    key={i}
-                                    onClick={() => handleSelect(store)}
-                                    style={{
-                                        padding: "4px 8px",
-                                        cursor: "pointer",
-                                        background: i === highlightedIndex ? "#eee" : "white",
-                                    }}
+                                        key={i}
+                                        onClick={() => handleSelect(store)}
                                     >
+                                        <span className="checkmark-gutter">
+                                            {value === store ? "✓" : " "}
+                                        </span>
                                         {store}
                                     </li>
                                 );
@@ -135,27 +117,16 @@ function StoreAutocomplete({ value, stores, onChange }) {
                     {remainingStores.length > 0 && (
                         <>
                             <hr style={{marginBottom: 0, marginInline: '50px'}} />
-                            <ul
-                            style={{
-                                margin: 0,
-                                padding: 0,
-                                listStyle: "none",
-                                background: "white",
-                                zIndex: 10,
-                                overflowY: "auto",
-                            }}
-                            >
+                            <ul className="ul-autocomplete">
                                 {remainingStores.map((store, i) => {
                                     return (
                                         <li
-                                        key={i}
-                                        onClick={() => handleSelect(store)}
-                                        style={{
-                                            padding: "4px 8px",
-                                            cursor: "pointer",
-                                            background: i === highlightedIndex ? "#eee" : "white",
-                                        }}
+                                            key={i}
+                                            onClick={() => handleSelect(store)}
                                         >
+                                            <span className="checkmark-gutter">
+                                                {value === store ? "✓" : " "}
+                                            </span>
                                             {store}
                                         </li>
                                     );
