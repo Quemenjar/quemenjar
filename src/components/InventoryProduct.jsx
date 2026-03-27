@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
 function InventoryProduct({ productDetails, onChange, onChangeQuantity, onAutomaticRestock, onDelete }) {
 
@@ -25,7 +25,7 @@ function InventoryProduct({ productDetails, onChange, onChangeQuantity, onAutoma
             <div className="product-middle">
                 <label>
 
-                    <select className="selector-inventario"
+                    <select className="product-select"
                         name="storage"
                         onChange={(e) => { onChange(productDetails.id, e.target.value, 'storage') }}
                         value={productDetails.storage}
@@ -48,8 +48,11 @@ function InventoryProduct({ productDetails, onChange, onChangeQuantity, onAutoma
             </div>
 
             <div className="product-right">
-                <button className="purchased-button" onClick={(e) => { onAutomaticRestock(productDetails.id) }}>
-                    Automatic restock {productDetails.automatic_restock > 0 ? '✅' : '❌'}
+                <button 
+                    className={`${productDetails.automatic_restock > 0 ? 'purchased-button' : ''}`} 
+                    onClick={(e) => { onAutomaticRestock(productDetails.id) }}
+                >
+                    Auto add 🛒+
                 </button>
 
                 <button>
