@@ -96,11 +96,8 @@ function ProductDetailPage () {
         <div className="detail-page">
             <Toaster />
 
-            <h2 className="detail-title">{productDetails.name || "Nuevo producto"}</h2>
-
             <div className="detail-info">
                 <div className="detail-row-full">
-                    <label className="detail-label">Nombre</label>
                     <input
                         className="detail-input"
                         type="text"
