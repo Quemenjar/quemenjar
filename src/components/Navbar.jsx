@@ -2,7 +2,7 @@ import { Link, NavLink } from "react-router-dom";
 
 function Navbar () {
     return (
-        <nav className="navbar display-horizontal">
+        <nav className="navbar display-header">
             <h1>Quemenjar</h1>
             <ul>
                 <li>

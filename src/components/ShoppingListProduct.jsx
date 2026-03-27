@@ -12,7 +12,7 @@ function ShoppingListProduct({
     const navigate = useNavigate();
 
     return (
-        <div className="shopping-list-product">
+        <div className="inventory-list-product">
             <div className="product-left">
                 <input 
                     className="product-title"

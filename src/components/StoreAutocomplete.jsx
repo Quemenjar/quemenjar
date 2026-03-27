@@ -76,8 +76,7 @@ function StoreAutocomplete({ value, stores, onChange }) {
 
     return (
         <div 
-            ref={wrapperRef} 
-            style={{ position: "relative", display: "inline-block" }}
+            ref={wrapperRef}
             className="store-autocomplete"
         >
             <input
