@@ -1,16 +1,44 @@
-# React + Vite
+# Quemenjar
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación para gestionar tu lista de la compra y el inventario de productos de cocina.
 
-Currently, two official plugins are available:
+## Cómo usar
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### Lista de la compra
 
-## React Compiler
+Muestra los productos que necesitas comprar.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **+ Añadir producto**: crea un producto nuevo con los campos vacíos y lo añade al principio de la lista
+- **Filtrar por tienda**: usa el desplegable superior para ver solo productos de una tienda específica
+- **Comprado**: marca el producto como comprado (se suma a tu inventario y se registra la fecha de compra)
+- **Editar**: abre el detalle del producto
+- **Quitar**: elimina el producto de la lista sin borrarlo del sistema
 
-## Expanding the ESLint configuration
+### Inventario
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Muestra los productos que tienes en casa.
+
+- **+ Añadir producto**: crea un producto nuevo con los campos vacíos y lo añade al principio de la lista
+- **Filtrar por ubicación**: Todo, Congelador, Nevera, Despensa
+- **Mostrar sin stock**: ver también productos con cantidad 0 pero que tienen reposición automática configurada
+- **Auto add**: al estar activado, añade el producto a la lista de la compra cuando la cantidad del producto llega a 0
+- **Editar**: abre el detalle del producto
+- **Delete**: elimina el producto del sistema permanentemente
+
+### Detalle del producto
+
+Al pulsar "Editar" accedes a la ficha completa del producto:
+
+| Campo | Descripción |
+|-------|-------------|
+| Nombre | Nombre del producto |
+| Cantidad | Cantidad actual en casa |
+| A comprar | Cantidad que necesitas comprar |
+| Auto agregar | Si configuras un valor, el producto se añadirá automáticamente a la lista cuando baje de esa cantidad |
+| Almacenaje | Dónde guardas el producto (Nevera, Congelador, Despensa) |
+| Tienda | Tienda donde sueles comprarlo |
+| Fecha de compra | Fecha de última compra |
+| Fecha de caducidad | Fecha de caducidad |
+| Nota | Notas adicionales |
+
+Los cambios se guardan automáticamente.
