@@ -53,7 +53,7 @@ function InventoryProduct({ productDetails, onChange, onChangeQuantity, onAutoma
                     className={`${productDetails.automatic_restock > 0 ? 'purchased-button' : ''}`} 
                     onClick={(e) => { onAutomaticRestock(productDetails.id) }}
                 >
-                    Auto agregar 🛒+
+                    Auto 🛒+
                 </button>
 
                 <button>
