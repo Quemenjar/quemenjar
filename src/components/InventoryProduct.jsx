@@ -8,6 +8,7 @@ function InventoryProduct({ productDetails, onChange, onChangeQuantity, onAutoma
                 <input
                     className="product-title"
                     type="text"
+                    placeholder="Nombre del producto"
                     value={productDetails.name}
                     onChange={(e) => { onChange(productDetails.id, e.target.value, 'name') }}
                 />
@@ -52,7 +53,7 @@ function InventoryProduct({ productDetails, onChange, onChangeQuantity, onAutoma
                     className={`${productDetails.automatic_restock > 0 ? 'purchased-button' : ''}`} 
                     onClick={(e) => { onAutomaticRestock(productDetails.id) }}
                 >
-                    Auto add 🛒+
+                    Auto agregar 🛒+
                 </button>
 
                 <button>
@@ -60,7 +61,7 @@ function InventoryProduct({ productDetails, onChange, onChangeQuantity, onAutoma
                 </button>
 
                 <button onClick={() => onDelete(productDetails.id)}>
-                    Delete
+                    Eliminar
                 </button>
             </div>
         </div>

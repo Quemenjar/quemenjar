@@ -101,6 +101,7 @@ function ProductDetailPage () {
                     <input
                         className="detail-input"
                         type="text"
+                        placeholder="Nombre del producto"
                         value={productDetails.name}
                         onChange={(e) => { onChange(e.target.value, 'name') }}
                     />
@@ -108,7 +109,7 @@ function ProductDetailPage () {
 
                 <div className="detail-row-triple">
                     <div className="detail-field">
-                        <label className="detail-label">Quantity</label>
+                        <label className="detail-label">Cantidad</label>
                         <input
                             className="detail-input"
                             type="number"
@@ -117,7 +118,7 @@ function ProductDetailPage () {
                         />
                     </div>
                     <div className="detail-field">
-                        <label className="detail-label">Needed</label>
+                        <label className="detail-label">A comprar</label>
                         <input
                             className="detail-input"
                             type="number"
@@ -126,7 +127,7 @@ function ProductDetailPage () {
                         />
                     </div>
                     <div className="detail-field">
-                        <label className="detail-label">Automatic restock</label>
+                        <label className="detail-label">Auto agregar 🛒+</label>
                         <input
                             className="detail-input"
                             type="number"
@@ -138,7 +139,7 @@ function ProductDetailPage () {
 
                 <div className="detail-row-double">
                     <div className="detail-field detail-field-green">
-                        <label className="detail-label">Storage</label>
+                        <label className="detail-label">Almacenaje</label>
                         <select
                             className="detail-select-green"
                             name="storage"
@@ -152,7 +153,7 @@ function ProductDetailPage () {
                         </select>
                     </div>
                     <div className="detail-field detail-field-green">
-                        <label className="detail-label">Store</label>
+                        <label className="detail-label">Tienda</label>
                         <StoreAutocomplete
                             value={productDetails.store || ""}
                             stores={stores}
@@ -163,7 +164,7 @@ function ProductDetailPage () {
 
                 <div className="detail-row-double">
                     <div className="detail-field">
-                        <label className="detail-label">Buy date</label>
+                        <label className="detail-label">Fecha de compra</label>
                         <input
                             className="detail-input"
                             type="date"
@@ -172,7 +173,7 @@ function ProductDetailPage () {
                         />
                     </div>
                     <div className="detail-field">
-                        <label className="detail-label">Expiration date</label>
+                        <label className="detail-label">Fecha de caducidad</label>
                         <input
                             className="detail-input"
                             type="date"
@@ -183,7 +184,7 @@ function ProductDetailPage () {
                 </div>
 
                 <div className="detail-row-full">
-                    <label className="detail-label">Note</label>
+                    <label className="detail-label">Nota</label>
                     <input
                         className="detail-input"
                         type="text"
