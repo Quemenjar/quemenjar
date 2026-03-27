@@ -19,6 +19,14 @@ ul {
     unicode-bidi: isolate;
 }
 
+button {
+    font-weight: bold;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
 .display-horizontal {
     display: flex;
     justify-content: space-between;
@@ -49,10 +57,15 @@ ul {
     padding: 6px 12px;
 }
 
+.navbar a:hover {
+    background-color: var(--fern);
+    border-radius: 10px;
+    color: var(--mint);
+}
+
 .navbar a.active {
     background-color: var(--fern);
     color: var(--mint);
-    padding: 6px 12px;
     border-radius: 10px;
 }
 
@@ -68,8 +81,11 @@ ul {
     border: none;
 }
 
-.page-header button:active {
+.page-header button:hover {
     background-color: var(--pine-green);
+}
+
+.page-header button:active {
     transform: scale(0.98);
 }
 
@@ -132,12 +148,17 @@ ul {
     margin-bottom: 10px;
 }
 
-.filter-group-buttons button{
-     background-color: var(--mint);
+.filter-group-buttons button {
+    background-color: var(--mint);
     color: var(--pine-green);
     padding: 6px 12px;
     border-radius: 10px;
-    font-weight: bold;
+    border: none;
+}
+
+.filter-group-buttons button:hover {
+    background-color: var(--fern);
+    color: var(--mint);
 }
 
 .filter-group-buttons button.filter-active {
@@ -179,14 +200,18 @@ ul {
     padding-left: 0.5rem;
 }
 
-.selector-inventario {
+.product-select {
     background-color: var(--mint);
     color: var(--pine-green);
     padding: 6px 12px;
     border-radius: 10px;
     text-align: center;
     font-weight: bold;
-    border: 0;
+    border: 1px solid transparent;
+}
+
+.product-select:hover {
+    border: 1px solid  var(--fern);
 }
 
 .product-title {
@@ -213,6 +238,11 @@ ul {
     border-radius: 10px;
     text-align: center;
     font-weight: bold;
+    border: 1px solid transparent !important;
+}
+
+.input-autocomplete:hover {
+    border: 1px solid var(--fern) !important;
 }
 
 .product-right {
@@ -230,11 +260,18 @@ ul {
     color: #333;
 }
 
+.product-right button:hover {
+    border-color: var(--fern);
+}
+
 button.purchased-button {
-    border: none;
+    border: 1px solid transparent;
     background-color: var(--mint);
     color: var(--pine-green);
-    font-weight: bold;
+}
+
+button.purchased-button:hover {
+    border: 1px solid var(--fern);
 }
 
 .product-right a {
@@ -319,6 +356,10 @@ button.purchased-button {
     width: 100%;
 }
 
+.detail-title {
+    text-align: left;
+}
+
 .detail-select-green {
     background: var(--mint);
     color: var(--pine-green);
@@ -338,6 +379,51 @@ button.purchased-button {
 
 .detail-field-green .detail-label {
     color: var(--fern);
+}
+
+.select-autocomplete {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border: 1px solid #ccc;
+    background: white;
+    z-index: 10;
+    max-height: 150px;
+    overflow-y: auto;
+    border-radius: 10px;
+}
+
+.ul-autocomplete {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background: white;
+    z-index: 10;
+    overflow-y: auto;
+}
+
+.ul-autocomplete li {
+    padding: 4px 8px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.ul-autocomplete li:hover {
+    background-color: #eee;
+}
+
+.checkmark-gutter {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    margin-right: 8px;
+    font-weight: 700; 
+    font-size: 12px;
 }
 
 @media (max-width: 600px) {
