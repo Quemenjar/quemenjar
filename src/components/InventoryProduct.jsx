@@ -42,6 +42,7 @@ function InventoryProduct({ productDetails, onChange, onChangeQuantity, onAutoma
                     <input
                         className="expiration-date"
                         type="date"
+                        placeholder="Fecha de caducidad"
                         value={productDetails.expiration_date}
                         onChange={(e) => { onChange(productDetails.id, e.target.value, 'expiration_date') }}
                     />

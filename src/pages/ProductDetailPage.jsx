@@ -168,6 +168,7 @@ function ProductDetailPage () {
                         <input
                             className="detail-input"
                             type="date"
+                            placeholder="Fecha de compra"
                             value={productDetails.buy_date}
                             onChange={(e) => { onChange(e.target.value, 'buy_date') }}
                         />
@@ -177,6 +178,7 @@ function ProductDetailPage () {
                         <input
                             className="detail-input"
                             type="date"
+                            placeholder="Fecha de caducidad"
                             value={productDetails.expiration_date}
                             onChange={(e) => { onChange(e.target.value, 'expiration_date') }}
                         />
