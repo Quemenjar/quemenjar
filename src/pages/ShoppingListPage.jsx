@@ -15,6 +15,7 @@ function ShoppingListPage() {
     useEffect(() => {
         getProducts()
             .then((products) => {
+                products.reverse();
                 setAllProducts(products);
             })
             .catch((error) => {
@@ -154,7 +155,7 @@ function ShoppingListPage() {
                 if (result.status === 200) {
                     const newId = result.data.name;
                     const newProduct = { id: newId, ...newProductDetails };
-                    setAllProducts([...allProducts, newProduct]);
+                    setAllProducts([newProduct, ...allProducts]);
                 }
             })
             .catch((error) => {

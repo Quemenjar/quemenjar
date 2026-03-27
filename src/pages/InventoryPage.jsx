@@ -45,6 +45,7 @@ function InventoryPage() {
 
     const fetchProducts = async () => {
         const products = await getProducts();
+        products.reverse();
         setProductList(products);
     }
 
@@ -190,7 +191,8 @@ function InventoryPage() {
                 />
                 <button 
                     className={showOutOfStock ? "filter-active" : ""}
-                    onClick={toggleOutOfStock}>Show out of stock
+                    onClick={toggleOutOfStock}>
+                        Mostrar agotados
                  </button>
             </div>
 
